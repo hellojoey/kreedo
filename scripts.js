@@ -10,30 +10,20 @@ function loadQuestions() {
       })
       .then(data => {
           console.log('Questions loaded:', data);
-          const questions = parseCSV(data);
-          console.log('Parsed questions:', questions);
-          displayQuestion(questions);
-          setupNavigation(questions);
+          Papa.parse(data, {
+              header: true,
+              complete: function(results) {
+                  console.log('Parsed questions:', results.data);
+                  const questions = results.data;
+                  displayQuestion(questions);
+                  setupNavigation(questions);
+              },
+              error: function(error) {
+                  console.error('Error parsing CSV:', error);
+              }
+          });
       })
       .catch(error => console.error('Error loading questions:', error));
-}
-
-// Function to parse CSV data
-function parseCSV(data) {
-  const lines = data.split('\n');
-  const result = [];
-  for (let i = 1; i < lines.length; i++) {
-      const row = lines[i].split(',');
-      if (row.length > 2) {
-          result.push({
-              id: row[0],
-              mustBeAfter: row[1],
-              question: row[2],
-              hashtags: row[3]
-          });
-      }
-  }
-  return result;
 }
 
 // Function to display a question
@@ -44,9 +34,9 @@ function displayQuestion(questions, index = 0) {
 
   if (questions.length > 0 && index < questions.length) {
       const question = questions[index];
-      questionText.textContent = question.question;
-      questionID.textContent = `#${question.id}`;
-      questionHashtags.innerHTML = generateHashtagLinks(question.hashtags);
+      questionText.textContent = question.Question;
+      questionID.textContent = `#${question.QuestionID}`;
+      questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);
   } else {
       questionText.textContent = 'No more questions.';
       questionID.textContent = '';
