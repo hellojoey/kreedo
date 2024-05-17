@@ -1,9 +1,17 @@
 // Function to load questions from the CSV file
 function loadQuestions() {
+  console.log('Loading questions...');
   fetch('questions.csv')
-      .then(response => response.text())
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.text();
+      })
       .then(data => {
+          console.log('Questions loaded:', data);
           const questions = parseCSV(data);
+          console.log('Parsed questions:', questions);
           displayQuestion(questions);
           setupNavigation(questions);
       })
@@ -16,11 +24,12 @@ function parseCSV(data) {
   const result = [];
   for (let i = 1; i < lines.length; i++) {
       const row = lines[i].split(',');
-      if (row.length > 1) {
+      if (row.length > 2) {
           result.push({
               id: row[0],
-              question: row[1],
-              hashtags: row[2]
+              mustBeAfter: row[1],
+              question: row[2],
+              hashtags: row[3]
           });
       }
   }
