@@ -10,83 +10,47 @@
   <header>
     <h1>kreedo</h1>
     <div class="header-right">
-      <button class="login-button" id="loginButton">login</button>
+      <button class="login-button" onclick="window.location.href='login.html'">login</button>
+      <div class="hamburger-menu" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
 
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close" id="closeButton">&times;</span>
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" autocomplete="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" autocomplete="current-password" required>
-        <button type="submit">Login</button>
-      </form>
+  <nav id="menu" class="hidden">
+    <ul>
+      <li><a href="#">login</a></li>
+      <li><a href="#">settings</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="question-nav">
+      <a href="javascript:void(0);" id="prevButton" class="nav-link" onclick="prevQuestion()">
+        &#8592; previous question
+      </a>
     </div>
-  </div>
+    <div class="hashtags-container">
+      <p id="questionHashtags" class="small-text"></p>
+    </div>
+    <p id="questionID" class="small-text"></p>
+    <div class="question-container">
+      <h2 id="questionText" class="large-text">Loading questions...</h2>
+    </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const loginButton = document.getElementById('loginButton');
-      const closeButton = document.getElementById('closeButton');
-      const loginModal = document.getElementById('loginModal');
-      const loginForm = document.getElementById('loginForm');
+    <div class="button-container">
+      <button id="noButton" class="option-button" onclick="selectOption('no')">&#10060;</button>
+      <button id="yesButton" class="option-button" onclick="selectOption('yes')">&#10004;</button>
+    </div>
 
-      // Toggle the login modal
-      function toggleLogin() {
-        if (loginModal.classList.contains('hidden')) {
-          loginModal.classList.remove('hidden');
-        } else {
-          loginModal.classList.add('hidden');
-        }
-      }
+    <div class="submit-container">
+      <button id="skipButton" class="small-button" onclick="handleResponse('skip')">skip</button>
+      <button id="submitButton" class="small-button" onclick="submitResponse()">submit</button>
+    </div>
+  </main>
 
-      loginButton.addEventListener('click', toggleLogin);
-      closeButton.addEventListener('click', toggleLogin);
-
-      // Handle login form submission
-      loginForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Simple client-side authentication for demonstration purposes
-        if (username === 'user' && password === 'password') {
-          localStorage.setItem('loggedIn', true);
-          toggleLogin();
-          alert('Login successful');
-          loginButton.innerText = 'logout';
-          loginButton.removeEventListener('click', toggleLogin);
-          loginButton.addEventListener('click', logout);
-        } else {
-          alert('Invalid username or password');
-        }
-      });
-
-      // Check if the user is logged in
-      function checkLogin() {
-        const loggedIn = localStorage.getItem('loggedIn');
-        if (loggedIn) {
-          loginButton.innerText = 'logout';
-          loginButton.removeEventListener('click', toggleLogin);
-          loginButton.addEventListener('click', logout);
-        }
-      }
-
-      // Handle logout
-      function logout() {
-        localStorage.removeItem('loggedIn');
-        loginButton.innerText = 'login';
-        loginButton.removeEventListener('click', logout);
-        loginButton.addEventListener('click', toggleLogin);
-        alert('Logged out');
-      }
-
-      checkLogin();
-    });
-  </script>
+  <script src="scripts.js"></script>
 </body>
 </html>
