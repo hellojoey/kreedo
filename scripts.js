@@ -146,6 +146,8 @@ function login(event) {
     localStorage.setItem('loggedIn', true);
     toggleLogin();
     alert('Login successful');
+    document.querySelector('.login-button').innerText = 'logout';
+    document.querySelector('.login-button').onclick = logout;
   } else {
     alert('Invalid username or password');
   }

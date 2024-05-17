@@ -230,8 +230,10 @@ body {
     margin-left: 20px;
   }
   
-  /* Modal Styles */
-  .modal {
+
+
+/* Modal Styles */
+.modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -267,4 +269,9 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
+  
+  .hidden {
+    display: none;
+  }
+  
   
