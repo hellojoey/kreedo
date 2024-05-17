@@ -125,4 +125,50 @@ function toggleMenu() {
   }
 }
 
-window.onload = loadQuestions;
+// Toggle the login modal
+function toggleLogin() {
+  var modal = document.getElementById('loginModal');
+  if (modal.classList.contains('hidden')) {
+    modal.classList.remove('hidden');
+  } else {
+    modal.classList.add('hidden');
+  }
+}
+
+// Handle login form submission
+function login(event) {
+  event.preventDefault();
+  var username = document.getElementById('username').value;
+  var password = document.getElementById('password').value;
+
+  // Simple client-side authentication for demonstration purposes
+  if (username === 'user' && password === 'password') {
+    localStorage.setItem('loggedIn', true);
+    toggleLogin();
+    alert('Login successful');
+  } else {
+    alert('Invalid username or password');
+  }
+}
+
+// Check if the user is logged in
+function checkLogin() {
+  var loggedIn = localStorage.getItem('loggedIn');
+  if (loggedIn) {
+    document.querySelector('.login-button').innerText = 'logout';
+    document.querySelector('.login-button').onclick = logout;
+  }
+}
+
+// Handle logout
+function logout() {
+  localStorage.removeItem('loggedIn');
+  document.querySelector('.login-button').innerText = 'login';
+  document.querySelector('.login-button').onclick = toggleLogin;
+  alert('Logged out');
+}
+
+window.onload = function() {
+  loadQuestions();
+  checkLogin();
+};
