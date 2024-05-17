@@ -8,20 +8,27 @@
 </head>
 <body>
   <header>
-    <h1>kreedo</h1>
+    <h1><a href="https://kreedoapp.com">kreedo</a></h1>
+    <div class="header-right">
+      <div class="hamburger-menu" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
   <main>
     <div class="login-container">
-      <h2>Login</h2>
+      <h2>login</h2>
       <form id="loginForm" onsubmit="login(event)">
-        <label for="email">Email:</label>
+        <label for="email">email:</label>
         <input type="email" id="email" name="email" required>
-        <label for="password">Password:</label>
+        <label for="password">password:</label>
         <input type="password" id="password" name="password" required>
         <div class="button-container">
-          <button type="submit" class="option-button">Login</button>
-          <button type="button" class="option-button" onclick="register()">Register</button>
+          <button type="submit" class="small-button">login</button>
+          <button type="button" class="small-button" onclick="register()">register</button>
         </div>
       </form>
     </div>
