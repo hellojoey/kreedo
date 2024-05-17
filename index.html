@@ -11,7 +11,7 @@
   <header>
     <h1>kreedo</h1>
     <div class="header-right">
-      <button class="login-button" onclick="toggleLogin()">login</button>
+      <button class="login-button" id="loginButton">login</button>
       <div class="hamburger-menu" onclick="toggleMenu()">
         <span></span>
         <span></span>
@@ -29,9 +29,9 @@
 
   <div id="loginModal" class="modal hidden">
     <div class="modal-content">
-      <span class="close" onclick="toggleLogin()">&times;</span>
+      <span class="close" id="closeButton">&times;</span>
       <h2>Login</h2>
-      <form id="loginForm" onsubmit="login(event)">
+      <form id="loginForm">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <label for="password">Password:</label>

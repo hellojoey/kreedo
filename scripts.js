@@ -1,176 +1,59 @@
-var questions = [];
-var currentQuestionIndex = 0;
-var selectedOption = null;
-var answers = {};
-
-// Load questions from CSV
-function loadQuestions() {
-  Papa.parse("questions.csv", {
-    download: true,
-    header: true,
-    complete: function(results) {
-      questions = results.data;
-      shuffleQuestions();
-      displayNextQuestion();
-    }
-  });
-}
-
-// Shuffle the questions array while keeping related questions in sequence
-function shuffleQuestions() {
-  for (let i = questions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [questions[i], questions[j]] = [questions[j], questions[i]];
-  }
-  ensureRelatedQuestions();
-}
-
-// Ensure related questions follow each other based on MustBeAfter field
-function ensureRelatedQuestions() {
-  for (let i = 0; i < questions.length; i++) {
-    const currentQuestion = questions[i];
-    if (currentQuestion.MustBeAfter) {
-      const relatedIndex = questions.findIndex(q => q.QuestionID === currentQuestion.MustBeAfter);
-      if (relatedIndex > -1 && relatedIndex !== i - 1) {
-        const relatedQuestion = questions.splice(relatedIndex, 1)[0];
-        questions.splice(i, 0, relatedQuestion);
+document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.getElementById('loginButton');
+    const closeButton = document.getElementById('closeButton');
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
+  
+    // Toggle the login modal
+    function toggleLogin() {
+      if (loginModal.classList.contains('hidden')) {
+        loginModal.classList.remove('hidden');
+      } else {
+        loginModal.classList.add('hidden');
       }
     }
-  }
-}
-
-// Display the next question
-function displayNextQuestion() {
-  if (currentQuestionIndex < questions.length) {
-    var question = questions[currentQuestionIndex];
-    document.getElementById('questionID').innerText = '#' + formatQuestionID(question.QuestionID);
-    document.getElementById('questionHashtags').innerHTML = formatHashtags(question.Hashtags);
-    document.getElementById('questionText').innerText = question.Question;
-    selectedOption = answers[question.QuestionID] || null;
-    highlightSelectedOption();
-  } else {
-    document.getElementById('questionText').innerText = "No more questions.";
-    document.getElementById('yesButton').style.display = 'none';
-    document.getElementById('noButton').style.display = 'none';
-    document.getElementById('skipButton').style.display = 'none';
-    document.getElementById('submitButton').style.display = 'none';
-    document.getElementById('prevButton').style.display = 'none';
-  }
-}
-
-// Format the question ID to 7 digits
-function formatQuestionID(id) {
-  return id.toString().padStart(7, '0');
-}
-
-// Format hashtags as hyperlinks with circles around them
-function formatHashtags(hashtags) {
-  return hashtags.split(' ').map(tag => `<a href="#">${tag}</a>`).join(' ');
-}
-
-// Highlight the selected option
-function highlightSelectedOption() {
-  if (selectedOption === 'yes') {
-    document.getElementById('yesButton').classList.add('selected');
-    document.getElementById('noButton').classList.remove('selected');
-  } else if (selectedOption === 'no') {
-    document.getElementById('noButton').classList.add('selected');
-    document.getElementById('yesButton').classList.remove('selected');
-  } else {
-    document.getElementById('yesButton').classList.remove('selected');
-    document.getElementById('noButton').classList.remove('selected');
-  }
-}
-
-// Handle option selection
-function selectOption(option) {
-  selectedOption = option;
-  highlightSelectedOption();
-}
-
-// Handle skip and other responses
-function handleResponse(response) {
-  if (selectedOption) {
-    answers[questions[currentQuestionIndex].QuestionID] = selectedOption;
-  }
-  console.log('User response:', response);
-  currentQuestionIndex++;
-  displayNextQuestion();
-}
-
-// Submit response
-function submitResponse() {
-  if (selectedOption) {
-    handleResponse(selectedOption);
-  } else {
-    alert('Please select an option before submitting.');
-  }
-}
-
-// Show the previous question
-function prevQuestion() {
-  if (currentQuestionIndex > 0) {
-    currentQuestionIndex--;
-    displayNextQuestion();
-  }
-}
-
-// Toggle the hamburger menu
-function toggleMenu() {
-  var menu = document.getElementById('menu');
-  if (menu.classList.contains('hidden')) {
-    menu.classList.remove('hidden');
-  } else {
-    menu.classList.add('hidden');
-  }
-}
-
-// Toggle the login modal
-function toggleLogin() {
-  var modal = document.getElementById('loginModal');
-  if (modal.classList.contains('hidden')) {
-    modal.classList.remove('hidden');
-  } else {
-    modal.classList.add('hidden');
-  }
-}
-
-// Handle login form submission
-function login(event) {
-  event.preventDefault();
-  var username = document.getElementById('username').value;
-  var password = document.getElementById('password').value;
-
-  // Simple client-side authentication for demonstration purposes
-  if (username === 'user' && password === 'password') {
-    localStorage.setItem('loggedIn', true);
-    toggleLogin();
-    alert('Login successful');
-    document.querySelector('.login-button').innerText = 'logout';
-    document.querySelector('.login-button').onclick = logout;
-  } else {
-    alert('Invalid username or password');
-  }
-}
-
-// Check if the user is logged in
-function checkLogin() {
-  var loggedIn = localStorage.getItem('loggedIn');
-  if (loggedIn) {
-    document.querySelector('.login-button').innerText = 'logout';
-    document.querySelector('.login-button').onclick = logout;
-  }
-}
-
-// Handle logout
-function logout() {
-  localStorage.removeItem('loggedIn');
-  document.querySelector('.login-button').innerText = 'login';
-  document.querySelector('.login-button').onclick = toggleLogin;
-  alert('Logged out');
-}
-
-window.onload = function() {
-  loadQuestions();
-  checkLogin();
-};
+  
+    loginButton.addEventListener('click', toggleLogin);
+    closeButton.addEventListener('click', toggleLogin);
+  
+    // Handle login form submission
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+  
+      // Simple client-side authentication for demonstration purposes
+      if (username === 'user' && password === 'password') {
+        localStorage.setItem('loggedIn', true);
+        toggleLogin();
+        alert('Login successful');
+        loginButton.innerText = 'logout';
+        loginButton.removeEventListener('click', toggleLogin);
+        loginButton.addEventListener('click', logout);
+      } else {
+        alert('Invalid username or password');
+      }
+    });
+  
+    // Check if the user is logged in
+    function checkLogin() {
+      const loggedIn = localStorage.getItem('loggedIn');
+      if (loggedIn) {
+        loginButton.innerText = 'logout';
+        loginButton.removeEventListener('click', toggleLogin);
+        loginButton.addEventListener('click', logout);
+      }
+    }
+  
+    // Handle logout
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      loginButton.innerText = 'login';
+      loginButton.removeEventListener('click', logout);
+      loginButton.addEventListener('click', toggleLogin);
+      alert('Logged out');
+    }
+  
+    checkLogin();
+  });
+  
