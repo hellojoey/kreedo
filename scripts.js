@@ -62,13 +62,6 @@ function setupNavigation(questions) {
       }
   });
 
-  document.getElementById('nextButton').addEventListener('click', () => {
-      if (currentIndex < questions.length - 1) {
-          currentIndex++;
-          displayQuestion(questions, currentIndex);
-      }
-  });
-
   document.getElementById('skipButton').addEventListener('click', () => {
       if (currentIndex < questions.length - 1) {
           currentIndex++;
@@ -81,6 +74,26 @@ function setupNavigation(questions) {
   document.getElementById('submitButton').addEventListener('click', () => {
       // Handle the submission logic here
       alert('Response submitted');
+      if (currentIndex < questions.length - 1) {
+          currentIndex++;
+          displayQuestion(questions, currentIndex);
+      } else {
+          displayQuestion([], 0);
+      }
+  });
+
+  document.getElementById('noButton').addEventListener('click', () => {
+      // Handle the "No" option logic here
+      if (currentIndex < questions.length - 1) {
+          currentIndex++;
+          displayQuestion(questions, currentIndex);
+      } else {
+          displayQuestion([], 0);
+      }
+  });
+
+  document.getElementById('yesButton').addEventListener('click', () => {
+      // Handle the "Yes" option logic here
       if (currentIndex < questions.length - 1) {
           currentIndex++;
           displayQuestion(questions, currentIndex);
