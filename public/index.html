@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Include PapaParse library with correct integrity attribute -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha384-nr+9vlvYWWjGQHMMgm2yxZr3VLgC1IRZzz1DRTGu5gWkY3HMYzle0jl7hDola65B" crossorigin="anonymous"></script>
-  <!-- Include Interact.js library -->
-  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
   <header>
@@ -31,20 +29,20 @@
   </nav>
 
   <main>
-    <div class="question-nav">
-      <a href="javascript:void(0);" id="prevButton" class="nav-link">&#8592; previous question</a>
-    </div>
-    <div class="hashtags-container">
-      <p id="questionHashtags" class="small-text"></p>
-    </div>
-    <p id="questionID" class="small-text"></p>
     <div class="question-container">
-      <h2 id="questionText" class="large-text draggable">Loading questions...</h2>
+      <div class="question-nav">
+        <a href="javascript:void(0);" id="prevButton" class="nav-link">&#8592; previous question</a>
+      </div>
+      <div class="hashtags-container">
+        <p id="questionHashtags" class="small-text"></p>
+      </div>
+      <p id="questionID" class="small-text"></p>
+      <h2 id="questionText" class="large-text">Loading questions...</h2>
     </div>
 
     <div class="button-container">
-      <button id="noButton" class="option-button draggable">&#10060;</button>
-      <button id="yesButton" class="option-button draggable">&#10004;</button>
+      <button id="noButton" class="option-button">&#10060;</button>
+      <button id="yesButton" class="option-button">&#10004;</button>
     </div>
 
     <div class="submit-container">
@@ -53,7 +51,7 @@
     </div>
   </main>
 
-  <!-- Include custom script after PapaParse and Interact.js -->
+  <!-- Include custom script after PapaParse -->
   <script src="scripts.js"></script>
 </body>
 </html>

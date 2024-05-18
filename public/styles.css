@@ -7,6 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
 
 header {
@@ -88,17 +89,24 @@ nav ul li:hover {
 /* Main content styles */
 main {
   text-align: center;
-  padding: 20px;
-  max-width: 600px;
-  width: 100%;
+  padding: 40px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.question-container {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .question-nav {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  width: 100%;
 }
 
 .nav-link {
@@ -120,17 +128,22 @@ main {
 .small-text {
   font-size: 14px;
   margin: 0;
-  text-align: left;
+  text-align: center;
   width: 100%;
 }
 
 #questionHashtags {
   margin-top: 10px;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 #questionHashtags a {
-  margin-right: 8px;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
   color: #007BFF;
   text-decoration: none;
   display: inline-block;
@@ -140,34 +153,34 @@ main {
   text-decoration: underline;
 }
 
-.question-container {
-  margin-bottom: 20px;
-}
-
 .large-text {
   font-size: 24px;
-  margin: 0;
+  margin: 10px 0;
   text-transform: capitalize;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
 
 .option-button {
-  font-size: 18px;
-  padding: 10px 20px;
+  font-size: 24px;
+  padding: 15px;
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
-  width: 100px;
-  margin: 0 10px;
-  text-transform: capitalize;
+  width: 60px;
+  height: 60px;
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
 }
 
 .option-button:hover {
@@ -183,19 +196,11 @@ main {
   cursor: pointer;
   text-transform: capitalize;
   max-width: 150px;
-  flex: 1;
+  margin: 0 10px;
 }
 
 .small-button:hover {
   background-color: #0056b3;
-}
-
-.small-button:first-child {
-  margin-right: 20px;
-}
-
-.small-button:last-child {
-  margin-left: 20px;
 }
 
 /* Login form container */
@@ -245,10 +250,4 @@ main {
 
 .option-button:hover {
   background-color: #0056b3;
-}
-
-/* Draggable styles */
-.draggable {
-  cursor: move;
-  /* Add any other styling you need */
 }
