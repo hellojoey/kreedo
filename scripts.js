@@ -10,18 +10,22 @@ function loadQuestions() {
       })
       .then(data => {
           console.log('Questions loaded:', data);
-          Papa.parse(data, {
-              header: true,
-              complete: function(results) {
-                  console.log('Parsed questions:', results.data);
-                  const questions = results.data;
-                  displayQuestion(questions);
-                  setupNavigation(questions);
-              },
-              error: function(error) {
-                  console.error('Error parsing CSV:', error);
-              }
-          });
+          if (typeof Papa !== 'undefined') {
+              Papa.parse(data, {
+                  header: true,
+                  complete: function(results) {
+                      console.log('Parsed questions:', results.data);
+                      const questions = results.data;
+                      displayQuestion(questions);
+                      setupNavigation(questions);
+                  },
+                  error: function(error) {
+                      console.error('Error parsing CSV:', error);
+                  }
+              });
+          } else {
+              console.error('PapaParse library is not defined.');
+          }
       })
       .catch(error => console.error('Error loading questions:', error));
 }
