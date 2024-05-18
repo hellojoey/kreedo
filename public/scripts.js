@@ -23,6 +23,7 @@ const firebaseConfig = {
     console.log('Loading questions...');
     fetch('questions.csv')
       .then(response => {
+        console.log('Fetch response:', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -70,6 +71,7 @@ const firebaseConfig = {
   
     if (questions.length > 0 && index < questions.length) {
       const question = questions[index];
+      console.log('Current question:', question);
       questionText.textContent = capitalizeFirstLetter(question.Question);
       questionID.textContent = formatQuestionID(question.QuestionID);
       questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);
