@@ -192,15 +192,15 @@ main {
 }
 
 .half-circle-left {
-  border-top-right-radius: 40px;
-  border-bottom-right-radius: 40px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
 }
 
 .half-circle-right {
-  border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
 }
