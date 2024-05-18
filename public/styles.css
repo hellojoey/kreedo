@@ -88,23 +88,27 @@ nav ul li:hover {
 
 /* Main content styles */
 main {
-  text-align: center;
-  padding: 40px 20px;
+  padding: 20px;
   flex: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
-.question-container {
-  margin-bottom: 20px;
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
   text-align: center;
 }
 
 .question-nav {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -128,7 +132,7 @@ main {
 .small-text {
   font-size: 14px;
   margin: 0;
-  text-align: center;
+  text-align: left;
   width: 100%;
 }
 
@@ -136,7 +140,7 @@ main {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 #questionHashtags a {
@@ -154,16 +158,16 @@ main {
 }
 
 .large-text {
-  font-size: 24px;
+  font-size: 36px;
   margin: 10px 0;
   text-transform: capitalize;
 }
 
 .button-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .option-button {
@@ -176,7 +180,6 @@ main {
   cursor: pointer;
   width: 60px;
   height: 60px;
-  margin: 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,6 +188,10 @@ main {
 
 .option-button:hover {
   background-color: #0056b3;
+}
+
+.submit-container {
+  margin-top: 20px;
 }
 
 .small-button {
@@ -230,24 +237,4 @@ main {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.option-button {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  flex: 1;
-  margin: 5px;
-}
-
-.option-button:hover {
-  background-color: #0056b3;
 }
