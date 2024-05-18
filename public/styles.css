@@ -7,6 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
 
 header {
@@ -45,7 +46,6 @@ header h1 a {
 
 h1 {
   font-size: 24px;
-  text-transform: lowercase;
   margin: 0;
 }
 
@@ -74,7 +74,6 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: #333;
-  text-transform: lowercase;
 }
 
 nav ul li:hover {
@@ -87,10 +86,15 @@ nav ul li:hover {
 
 /* Main content styles */
 main {
-  text-align: center;
   padding: 20px;
-  max-width: 600px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
 }
 
 .question-nav {
@@ -103,7 +107,7 @@ main {
 
 .nav-link {
   font-size: 16px;
-  color: #007BFF;
+  color: #008080; /* New color */
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -114,24 +118,39 @@ main {
 }
 
 .hashtags-container {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
 }
 
 .small-text {
   font-size: 14px;
   margin: 0;
-  text-align: left;
-  width: 100%;
+}
+
+#questionID {
+  color: grey;
+  font-style: italic;
+}
+
+.divider {
+  width: 100px; /* Shorter line */
+  border: 0.5px solid #ccc;
+  margin: 20px 0;
 }
 
 #questionHashtags {
   margin-top: 10px;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #questionHashtags a {
-  margin-right: 8px;
-  color: #007BFF;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  color: #008080; /* New color */
   text-decoration: none;
   display: inline-block;
 }
@@ -140,60 +159,92 @@ main {
   text-decoration: underline;
 }
 
-.question-container {
-  margin-bottom: 20px;
-}
-
 .large-text {
-  font-size: 24px;
-  margin: 0;
-  text-transform: lowercase;
+  font-size: 36px;
+  margin: 20px 0;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  gap: 10px; /* Small gap */
 }
 
 .option-button {
-  font-size: 18px;
+  font-size: 24px;
   padding: 20px;
-  background-color: #008080;
+  background-color: #008080; /* New color */
   color: white;
   border: none;
-  border-radius: 0;
   cursor: pointer;
-  width: 100px;
-  height: 50px;
-  margin: 0 10px;
-  text-transform: lowercase;
-}
-
-.option-button.half-circle-left {
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-}
-
-.option-button.half-circle-right {
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
 }
 
 .option-button:hover {
-  background-color: #005f5f;
+  background-color: #005f5f; /* Slightly darker shade */
+}
+
+.half-circle-left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+
+.half-circle-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.submit-container {
+  margin-top: 20px;
 }
 
 .small-link {
-  color: #007BFF;
+  font-size: 16px;
+  color: #008080; /* New color */
   text-decoration: none;
+  font-style: italic;
 }
 
 .small-link:hover {
   text-decoration: underline;
 }
 
-.divider {
-  margin: 10px 0;
+/* Login form container */
+.login-container {
+  text-align: left;
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+}
+
+.login-container h2 {
+  text-align: center;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container label {
+  margin-bottom: 5px;
+}
+
+.login-container input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

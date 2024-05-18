@@ -1,19 +1,16 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
-    authDomain: "kreedo-5659e.firebaseapp.com",
-    projectId: "kreedo-5659e",
-    storageBucket: "kreedo-5659e.appspot.com",
-    messagingSenderId: "395650604091",
-    appId: "kreedo-5659e",
-    measurementId: "G-WT40DT0QRP"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+    measurementId: "YOUR_MEASUREMENT_ID"
   };
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  
-  // Initialize Firestore
-  const db = firebase.firestore();
   
   // Store user answers in localStorage
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
@@ -23,7 +20,6 @@ const firebaseConfig = {
     console.log('Loading questions...');
     fetch('questions.csv')
       .then(response => {
-        console.log('Fetch response:', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -62,7 +58,6 @@ const firebaseConfig = {
   
   // Function to display a question
   function displayQuestion(questions, index = 0) {
-    console.log('Displaying question:', index);
     const questionText = document.getElementById('questionText');
     const questionID = document.getElementById('questionID');
     const questionHashtags = document.getElementById('questionHashtags');
@@ -71,7 +66,6 @@ const firebaseConfig = {
   
     if (questions.length > 0 && index < questions.length) {
       const question = questions[index];
-      console.log('Current question:', question);
       questionText.textContent = capitalizeFirstLetter(question.Question);
       questionID.textContent = formatQuestionID(question.QuestionID);
       questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);
@@ -103,7 +97,6 @@ const firebaseConfig = {
   // Function to handle navigation
   function setupNavigation(questions) {
     let currentIndex = 0;
-    console.log('Setting up navigation for questions:', questions);
   
     document.getElementById('prevButton').addEventListener('click', () => {
       if (currentIndex > 0) {
@@ -151,12 +144,7 @@ const firebaseConfig = {
   }
   
   document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('questionText')) {
-      console.log('Questions element found. Loading questions...');
-      loadQuestions();
-    } else {
-      console.log('Questions element not found. Skipping question loading.');
-    }
+    loadQuestions();
   
     // Registration functionality
     if (document.getElementById('registrationForm')) {
@@ -180,13 +168,6 @@ const firebaseConfig = {
             // Update the user profile
             return user.updateProfile({
               displayName: fullName
-            }).then(() => {
-              // Store additional user information in Firestore
-              return db.collection('users').doc(user.uid).set({
-                fullName: fullName,
-                email: email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
             });
           })
           .then(() => {
