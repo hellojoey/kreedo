@@ -10,7 +10,7 @@
 </head>
 <body>
   <header>
-    <h1><a href="https://kreedoapp.com">kreedo</a></h1>
+    <h1><a href="https://kreedoapp.com" style="text-transform: lowercase;">kreedo</a></h1>
     <div class="header-right">
       <button class="login-button" onclick="window.location.href='login.html'">login</button>
       <div class="hamburger-menu" onclick="toggleMenu()">
@@ -29,25 +29,23 @@
   </nav>
 
   <main>
-    <div class="card">
-      <div class="question-nav">
-        <a href="javascript:void(0);" id="prevButton" class="nav-link">&#8592; previous question</a>
-      </div>
-      <div class="hashtags-container">
-        <p id="questionHashtags" class="small-text"></p>
-      </div>
-      <p id="questionID" class="small-text"></p>
-      <h2 id="questionText" class="large-text">Loading questions...</h2>
+    <div class="question-nav">
+      <a href="javascript:void(0);" id="prevButton" class="nav-link">&#8592; previous question</a>
+    </div>
+    <div class="hashtags-container">
+      <p id="questionHashtags" class="small-text"></p>
+    </div>
+    <p id="questionID" class="small-text"></p>
+    <hr>
+    <h2 id="questionText" class="large-text">Loading questions...</h2>
 
-      <div class="button-container">
-        <button id="noButton" class="option-button">&#10060;</button>
-        <button id="yesButton" class="option-button">&#10004;</button>
-      </div>
+    <div class="button-container">
+      <button id="noButton" class="option-button half-circle-left">&#10060;</button>
+      <button id="yesButton" class="option-button half-circle-right">&#10004;</button>
+    </div>
 
-      <div class="submit-container">
-        <button id="skipButton" class="small-button">skip</button>
-        <button id="submitButton" class="small-button">submit</button>
-      </div>
+    <div class="submit-container">
+      <a href="javascript:void(0);" id="skipButton" class="small-link">skip</a>
     </div>
   </main>
 

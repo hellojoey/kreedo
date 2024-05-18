@@ -39,7 +39,7 @@ function loadQuestions() {
     if (questions.length > 0 && index < questions.length) {
       const question = questions[index];
       questionText.textContent = capitalizeFirstLetter(question.Question);
-      questionID.textContent = `#${formatQuestionID(question.QuestionID)}`;
+      questionID.textContent = formatQuestionID(question.QuestionID);
       questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);
     } else {
       questionText.textContent = 'No more questions.';
@@ -59,7 +59,7 @@ function loadQuestions() {
   // Function to generate hashtag links
   function generateHashtagLinks(hashtags) {
     if (!hashtags) return '';
-    return hashtags.split(' ').map(tag => `<a href="#">#${tag}</a>`).join(' ');
+    return hashtags.split(' ').map(tag => `<a href="#">${tag}</a>`).join(' ');
   }
   
   // Function to handle navigation
@@ -74,17 +74,6 @@ function loadQuestions() {
     });
   
     document.getElementById('skipButton').addEventListener('click', () => {
-      if (currentIndex < questions.length - 1) {
-        currentIndex++;
-        displayQuestion(questions, currentIndex);
-      } else {
-        displayQuestion([], 0);
-      }
-    });
-  
-    document.getElementById('submitButton').addEventListener('click', () => {
-      // Handle the submission logic here
-      alert('Response submitted');
       if (currentIndex < questions.length - 1) {
         currentIndex++;
         displayQuestion(questions, currentIndex);
@@ -121,28 +110,4 @@ function loadQuestions() {
   }
   
   document.addEventListener('DOMContentLoaded', loadQuestions);
-  
-  // Integrate Interact.js for drag-and-drop functionality
-  interact('.draggable').draggable({
-    inertia: true,
-    modifiers: [
-      interact.modifiers.restrictRect({
-        restriction: 'parent',
-        endOnly: true
-      })
-    ],
-    autoScroll: true,
-    listeners: {
-      move(event) {
-        const target = event.target;
-        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-  
-        target.style.transform = `translate(${x}px, ${y}px)`;
-  
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-      }
-    }
-  });
   

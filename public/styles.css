@@ -46,7 +46,6 @@ header h1 a {
 
 h1 {
   font-size: 24px;
-  text-transform: capitalize;
   margin: 0;
 }
 
@@ -75,7 +74,6 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: #333;
-  text-transform: capitalize;
 }
 
 nav ul li:hover {
@@ -91,19 +89,12 @@ main {
   padding: 20px;
   flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-}
-
-.card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
   max-width: 800px;
-  width: 100%;
-  text-align: center;
+  margin-top: 20px;
 }
 
 .question-nav {
@@ -111,6 +102,7 @@ main {
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .nav-link {
@@ -127,20 +119,19 @@ main {
 
 .hashtags-container {
   margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
 }
 
 .small-text {
   font-size: 14px;
   margin: 0;
-  text-align: left;
-  width: 100%;
 }
 
 #questionHashtags {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
 }
 
 #questionHashtags a {
@@ -159,15 +150,15 @@ main {
 
 .large-text {
   font-size: 36px;
-  margin: 10px 0;
-  text-transform: capitalize;
+  margin: 20px 0;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 20px;
+  gap: 10px;
 }
 
 .option-button {
@@ -176,7 +167,7 @@ main {
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 5px;
   cursor: pointer;
   width: 60px;
   height: 60px;
@@ -190,24 +181,28 @@ main {
   background-color: #0056b3;
 }
 
+.half-circle-left {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.half-circle-right {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
 .submit-container {
   margin-top: 20px;
 }
 
-.small-button {
-  padding: 8px 16px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-transform: capitalize;
-  max-width: 150px;
-  margin: 0 10px;
+.small-link {
+  font-size: 16px;
+  color: #007BFF;
+  text-decoration: none;
 }
 
-.small-button:hover {
-  background-color: #0056b3;
+.small-link:hover {
+  text-decoration: underline;
 }
 
 /* Login form container */
