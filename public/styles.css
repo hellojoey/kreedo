@@ -45,7 +45,7 @@ header h1 a {
 
 h1 {
   font-size: 24px;
-  text-transform: lowercase;
+  text-transform: capitalize;
   margin: 0;
 }
 
@@ -74,7 +74,7 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: #333;
-  text-transform: lowercase;
+  text-transform: capitalize;
 }
 
 nav ul li:hover {
@@ -147,7 +147,7 @@ main {
 .large-text {
   font-size: 24px;
   margin: 0;
-  text-transform: lowercase;
+  text-transform: capitalize;
 }
 
 .button-container {
@@ -167,7 +167,7 @@ main {
   cursor: pointer;
   width: 100px;
   margin: 0 10px;
-  text-transform: lowercase;
+  text-transform: capitalize;
 }
 
 .option-button:hover {
@@ -181,7 +181,7 @@ main {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  text-transform: lowercase;
+  text-transform: capitalize;
   max-width: 150px;
   flex: 1;
 }
@@ -245,4 +245,10 @@ main {
 
 .option-button:hover {
   background-color: #0056b3;
+}
+
+/* Draggable styles */
+.draggable {
+  cursor: move;
+  /* Add any other styling you need */
 }
