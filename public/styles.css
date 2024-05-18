@@ -152,104 +152,37 @@ main {
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
 
 .option-button {
   font-size: 18px;
-  padding: 10px 20px;
-  background-color: #007BFF;
+  padding: 20px;
+  background-color: #008080;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0;
   cursor: pointer;
   width: 100px;
+  height: 50px;
   margin: 0 10px;
   text-transform: lowercase;
 }
 
-.option-button:hover {
-  background-color: #0056b3;
+.option-button.half-circle-left {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
 }
 
-.small-button {
-  padding: 8px 16px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-transform: lowercase;
-  max-width: 150px;
-  flex: 1;
-}
-
-.small-button:hover {
-  background-color: #0056b3;
-}
-
-.small-button:first-child {
-  margin-right: 20px;
-}
-
-.small-button:last-child {
-  margin-left: 20px;
-}
-
-/* Login form container */
-.login-container {
-  text-align: left;
-  max-width: 400px;
-  width: 100%;
-  margin: auto;
-}
-
-.login-container h2 {
-  text-align: center;
-}
-
-.login-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-container label {
-  margin-bottom: 5px;
-}
-
-.login-container input {
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.option-button {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  flex: 1;
-  margin: 5px;
+.option-button.half-circle-right {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
 .option-button:hover {
-  background-color: #0056b3;
-}
-
-.error-message {
-  color: red;
-  margin-top: 10px;
+  background-color: #005f5f;
 }
 
 .small-link {
@@ -261,7 +194,6 @@ main {
   text-decoration: underline;
 }
 
-.small-text {
-  text-align: center;
-  margin-top: 10px;
+.divider {
+  margin: 10px 0;
 }
