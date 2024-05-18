@@ -107,7 +107,7 @@ main {
 
 .nav-link {
   font-size: 16px;
-  color: #007BFF;
+  color: #008080; /* New color */
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -150,7 +150,7 @@ main {
   padding: 5px 10px;
   background-color: #e0e0e0;
   border-radius: 15px;
-  color: #007BFF;
+  color: #008080; /* New color */
   text-decoration: none;
   display: inline-block;
 }
@@ -169,16 +169,15 @@ main {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  gap: 0; /* Adjust gap to create a single circle appearance */
+  gap: 10px; /* Small gap */
 }
 
 .option-button {
   font-size: 24px;
   padding: 20px;
-  background-color: #007BFF;
+  background-color: #008080; /* New color */
   color: white;
   border: none;
-  border-radius: 50%; /* Full circle */
   cursor: pointer;
   width: 80px;
   height: 80px;
@@ -189,17 +188,21 @@ main {
 }
 
 .option-button:hover {
-  background-color: #0056b3;
+  background-color: #005f5f; /* Slightly darker shade */
 }
 
 .half-circle-left {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
 }
 
 .half-circle-right {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
 .submit-container {
@@ -208,7 +211,7 @@ main {
 
 .small-link {
   font-size: 16px;
-  color: #007BFF;
+  color: #008080; /* New color */
   text-decoration: none;
   font-style: italic;
 }
