@@ -3,8 +3,13 @@ function login(event) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
   
-    // Simple client-side authentication for demonstration purposes
-    if (email === 'user@example.com' && password === 'password') {
+    // Retrieve existing users from local storage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+  
+    // Check if the user exists
+    const user = users.find(user => user.email === email && user.password === password);
+  
+    if (user) {
       localStorage.setItem('loggedIn', true);
       alert('Login successful');
       window.location.href = 'index.html';

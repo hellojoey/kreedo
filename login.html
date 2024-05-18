@@ -1,31 +1,39 @@
-function login(event) {
-  event.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Kreedo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">kreedo</a></h1>
+    <div class="header-right">
+      <div class="hamburger-menu" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
 
-  // Retrieve existing users from local storage
-  let users = JSON.parse(localStorage.getItem('users')) || [];
+  <main>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm" onsubmit="login(event)">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <div class="button-container">
+          <button type="submit" class="small-button">Login</button>
+          <button type="button" class="small-button" onclick="redirectToRegister()">Register</button>
+        </div>
+      </form>
+    </div>
+  </main>
 
-  // Check if the user exists
-  const user = users.find(user => user.email === email && user.password === password);
-
-  if (user) {
-    localStorage.setItem('loggedIn', true);
-    alert('Login successful');
-    window.location.href = 'index.html';
-  } else {
-    alert('Invalid email or password');
-  }
-}
-
-function redirectToRegister() {
-  console.log("redirectToRegister function called");
-  window.location.href = 'register.html';
-}
-
-function toggleMenu() {
-  const menu = document.getElementById('menu');
-  menu.classList.toggle('hidden');
-}
-
-console.log("login.js script loaded and functions defined.");
+  <script src="login.js"></script>
+</body>
+</html>
