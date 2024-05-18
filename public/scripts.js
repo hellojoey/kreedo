@@ -61,6 +61,7 @@ const firebaseConfig = {
   
   // Function to display a question
   function displayQuestion(questions, index = 0) {
+    console.log('Displaying question:', index);
     const questionText = document.getElementById('questionText');
     const questionID = document.getElementById('questionID');
     const questionHashtags = document.getElementById('questionHashtags');
@@ -100,6 +101,7 @@ const firebaseConfig = {
   // Function to handle navigation
   function setupNavigation(questions) {
     let currentIndex = 0;
+    console.log('Setting up navigation for questions:', questions);
   
     document.getElementById('prevButton').addEventListener('click', () => {
       if (currentIndex > 0) {
@@ -147,7 +149,12 @@ const firebaseConfig = {
   }
   
   document.addEventListener('DOMContentLoaded', () => {
-    loadQuestions();
+    if (document.getElementById('questionText')) {
+      console.log('Questions element found. Loading questions...');
+      loadQuestions();
+    } else {
+      console.log('Questions element not found. Skipping question loading.');
+    }
   
     // Registration functionality
     if (document.getElementById('registrationForm')) {
