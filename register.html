@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Kreedo</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <header>
@@ -27,29 +42,18 @@
   </main>
 
   <script>
-    function register(event) {
+    async function register(event) {
       event.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      // Retrieve existing users from local storage
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-
-      // Check if email already exists
-      const userExists = users.some(user => user.email === email);
-      if (userExists) {
-        alert('User with this email already exists.');
-        return;
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        alert('Registration successful');
+        window.location.href = 'login.html';
+      } catch (error) {
+        alert('Registration failed: ' + error.message);
       }
-
-      // Add new user to the list
-      users.push({ email, password });
-
-      // Save updated users list to local storage
-      localStorage.setItem('users', JSON.stringify(users));
-
-      alert('Registration successful');
-      window.location.href = 'login.html';
     }
   </script>
 </body>

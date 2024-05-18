@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Kreedo</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <header>
@@ -34,6 +49,32 @@
     </div>
   </main>
 
-  <script src="login.js"></script>
+  <script>
+    async function login(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        alert('Login successful');
+        window.location.href = 'index.html';
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+      }
+    }
+
+    function redirectToRegister() {
+      console.log("redirectToRegister function called");
+      window.location.href = 'register.html';
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+    }
+
+    console.log("login.js script loaded and functions defined.");
+  </script>
 </body>
 </html>
