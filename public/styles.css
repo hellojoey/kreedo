@@ -134,7 +134,7 @@ main {
 }
 
 .divider {
-  width: 100%;
+  width: 100px; /* Shorter line */
   border: 0.5px solid #ccc;
   margin: 20px 0;
 }
@@ -169,7 +169,7 @@ main {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  gap: 20px;
+  gap: 0; /* Adjust gap to create a single circle appearance */
 }
 
 .option-button {
@@ -178,7 +178,7 @@ main {
   background-color: #007BFF;
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 50%; /* Full circle */
   cursor: pointer;
   width: 80px;
   height: 80px;
@@ -190,6 +190,16 @@ main {
 
 .option-button:hover {
   background-color: #0056b3;
+}
+
+.half-circle-left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.half-circle-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .submit-container {
