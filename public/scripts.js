@@ -83,7 +83,6 @@ function loadQuestions() {
     });
   
     document.getElementById('noButton').addEventListener('click', () => {
-      // Handle the "No" option logic here
       if (currentIndex < questions.length - 1) {
         currentIndex++;
         displayQuestion(questions, currentIndex);
@@ -93,7 +92,6 @@ function loadQuestions() {
     });
   
     document.getElementById('yesButton').addEventListener('click', () => {
-      // Handle the "Yes" option logic here
       if (currentIndex < questions.length - 1) {
         currentIndex++;
         displayQuestion(questions, currentIndex);
