@@ -27,25 +27,29 @@
   </main>
 
   <script>
-    async function register(event) {
+    function register(event) {
       event.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      const response = await fetch('https://your-cloudflare-worker-url/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      // Retrieve existing users from local storage
+      let users = JSON.parse(localStorage.getItem('users')) || [];
 
-      if (response.ok) {
-        alert('Registration successful');
-        window.location.href = 'login.html';
-      } else {
-        alert('Registration failed');
+      // Check if email already exists
+      const userExists = users.some(user => user.email === email);
+      if (userExists) {
+        alert('User with this email already exists.');
+        return;
       }
+
+      // Add new user to the list
+      users.push({ email, password });
+
+      // Save updated users list to local storage
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Registration successful');
+      window.location.href = 'login.html';
     }
   </script>
 </body>
