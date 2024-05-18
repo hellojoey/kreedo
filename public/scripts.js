@@ -1,16 +1,19 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID"
+    apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+    authDomain: "kreedo-5659e.firebaseapp.com",
+    projectId: "kreedo-5659e",
+    storageBucket: "kreedo-5659e.appspot.com",
+    messagingSenderId: "395650604091",
+    appId: "kreedo-5659e",
+    measurementId: "G-WT40DT0QRP"
   };
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  
+  // Initialize Firestore
+  const db = firebase.firestore();
   
   // Store user answers in localStorage
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
@@ -168,6 +171,13 @@ const firebaseConfig = {
             // Update the user profile
             return user.updateProfile({
               displayName: fullName
+            }).then(() => {
+              // Store additional user information in Firestore
+              return db.collection('users').doc(user.uid).set({
+                fullName: fullName,
+                email: email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
             });
           })
           .then(() => {
