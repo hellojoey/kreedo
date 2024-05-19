@@ -5,11 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+      authDomain: "kreedo-5659e.firebaseapp.com",
+      projectId: "kreedo-5659e",
+      storageBucket: "kreedo-5659e.appspot.com",
+      messagingSenderId: "395650604091",
+      appId: "1:395650604091:web:7804b0af807767f853d01e",
+      measurementId: "G-WT40DT0QRP"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="login-scripts.js" defer></script>
 </head>
 <body>
   <header>
-    <h1><a href="https://kreedoapp.com" style="text-transform: lowercase;">kreedo</a></h1>
+    <h1><a href="index.html" style="text-transform: lowercase;">kreedo</a></h1>
   </header>
+
   <main>
     <div class="login-container">
       <h2>Login</h2>
@@ -19,14 +37,9 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
-        <a href="forgot-password.html" class="small-link">Forgot Password?</a>
-        <p id="error-message" class="error-message"></p>
+        <p id="error-message"></p>
       </form>
-      <p class="small-text">Don't have an account? <a href="register.html" class="small-link">Sign Up</a></p>
     </div>
   </main>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
-  <script src="scripts.js"></script>
 </body>
 </html>
