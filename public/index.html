@@ -5,8 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>kreedo</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Include Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
   <!-- Include PapaParse library with correct integrity attribute -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha384-nr+9vlvYWWjGQHMMgm2yxZr3VLgC1IRZzz1DRTGu5gWkY3HMYzle0jl7hDola65B" crossorigin="anonymous"></script>
+  <!-- Initialize Firebase -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+      authDomain: "kreedo-5659e.firebaseapp.com",
+      databaseURL: "https://kreedo-5659e-default-rtdb.firebaseio.com",
+      projectId: "kreedo-5659e",
+      storageBucket: "kreedo-5659e.appspot.com",
+      messagingSenderId: "395650604091",
+      appId: "1:395650604091:web:7804b0af807767f853d01e",
+      measurementId: "G-WT40DT0QRP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+  <!-- Your custom script -->
+  <script src="scripts.js" defer></script>
 </head>
 <body>
   <header>
@@ -50,6 +75,6 @@
   </main>
 
   <!-- Include custom script after PapaParse -->
-  <script src="scripts.js"></script>
+  <script src="scripts.js" defer></script>
 </body>
 </html>
