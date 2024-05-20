@@ -137,11 +137,34 @@
       const joinNowButton = document.querySelector('.join-now-button');
       const hamburgerMenu = document.querySelector('.hamburger-menu');
       const menu = document.getElementById('menu');
+      const xButton = document.getElementById('xButton');
+      const checkButton = document.getElementById('checkButton');
       
       console.log('Login button:', loginButton);
       console.log('Join Now button:', joinNowButton);
       console.log('Hamburger menu:', hamburgerMenu);
       console.log('Menu:', menu);
+      console.log('X button:', xButton);
+      console.log('Check button:', checkButton);
+
+      let currentPrompt = 0;
+      const prompts = [
+        "Understand who you are. Learn what you care about and who you care about. Let <span class='highlight'>kreedo</span> help you make decisions. Click the <span class='highlight'>&#10004;</span> to get started.",
+        "Would you like to know more about kreedo?",
+        "Are you sure?",
+        "This is your last chance. After this, there is no turning back. You take the blue pill - the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill - you stay in Wonderland and I show you how deep the rabbit hole goes."
+      ];
+
+      const updatePrompt = () => {
+        document.querySelector('.summary p').innerHTML = prompts[currentPrompt];
+        if (currentPrompt === 3) {
+          xButton.style.backgroundColor = 'blue';
+          checkButton.style.backgroundColor = 'red';
+        } else {
+          xButton.style.backgroundColor = '#008080';
+          checkButton.style.backgroundColor = '#008080';
+        }
+      };
 
       if (loginButton) {
         loginButton.addEventListener('click', () => {
@@ -161,6 +184,25 @@
         hamburgerMenu.addEventListener('click', () => {
           console.log('Hamburger menu clicked');
           menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+      }
+
+      if (xButton) {
+        xButton.addEventListener('click', () => {
+          console.log('X button clicked');
+          if (currentPrompt < prompts.length - 1) {
+            currentPrompt++;
+            updatePrompt();
+          } else {
+            window.location.href = 'https://www.google.com';
+          }
+        });
+      }
+
+      if (checkButton) {
+        checkButton.addEventListener('click', () => {
+          console.log('Check button clicked');
+          window.location.href = 'register.html';
         });
       }
     });

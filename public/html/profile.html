@@ -126,6 +126,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <script src="../js/profile-scripts.js" defer></script>
   <script>
     // Firebase configuration
     const firebaseConfig = {
@@ -146,66 +147,51 @@
       const db = firebase.firestore();
 
       auth.onAuthStateChanged(user => {
+        const headerRight = document.querySelector('.header-right');
+        const loginButton = document.querySelector('.login-button');
+        const menu = document.getElementById('menu');
+
         if (user) {
-          console.log('User is signed in:', user);
-          // User is signed in, load profile data
-          loadProfile(user.uid);
-          updateMenuForLoggedInUser();
+          // User is signed in, remove the login button
+          if (loginButton) {
+            headerRight.removeChild(loginButton);
+          }
+
+          // Update the menu for logged-in users
+          menu.innerHTML = `
+            <ul>
+              <li><a href="profile.html">profile</a></li>
+              <li><a href="#">settings</a></li>
+              <li><a href="#">help</a></li>
+              <li><a href="#" onclick="firebase.auth().signOut().then(() => { window.location.href = 'index.html'; })">logout</a></li>
+            </ul>
+          `;
+
+          // Load logbook data
+          loadLogbook(user.uid);
         } else {
-          console.log('No user is signed in, redirecting to login.');
           // User is not signed in, redirect to login page
           window.location.href = 'login.html';
         }
       });
-
-      function updateMenuForLoggedInUser() {
-        const menu = document.getElementById('menu');
-        menu.innerHTML = `
-          <ul>
-            <li><a href="profile.html">profile</a></li>
-            <li><a href="#">settings</a></li>
-            <li><a href="#">help</a></li>
-            <li><a href="#" onclick="logout()">logout</a></li>
-          </ul>
-        `;
-        menu.classList.remove('hidden');
-        console.log('Menu updated for logged-in user');
-      }
-
-      function logout() {
-        firebase.auth().signOut().then(() => {
-          console.log('User signed out, redirecting to index.');
-          window.location.href = 'index.html';
-        }).catch(error => {
-          console.error('Error during logout:', error);
-        });
-      }
 
       const hamburgerMenu = document.querySelector('.hamburger-menu');
       const menu = document.getElementById('menu');
 
       hamburgerMenu.addEventListener('click', () => {
         menu.classList.toggle('hidden');
-        console.log('Hamburger menu toggled');
       });
 
-      function loadProfile(userId) {
-        db.collection('users').doc(userId).get().then(doc => {
-          if (doc.exists) {
-            const data = doc.data();
-            document.getElementById('username').textContent = data.username;
-            document.getElementById('fullName').textContent = data.fullName;
-            document.getElementById('profilePicture').src = data.profilePicture || '../images/default-profile-pic.png';
-            document.getElementById('totalAnswers').textContent = data.totalAnswers || 0;
-            document.getElementById('progressPercentage').textContent = (data.dailyProgress || 0) + '%';
-            loadLogbook(userId);
+      document.querySelector('h1 a').addEventListener('click', (event) => {
+        event.preventDefault();
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            window.location.href = 'questions.html';
           } else {
-            console.error('User document does not exist');
+            window.location.href = 'index.html';
           }
-        }).catch(error => {
-          console.error('Error fetching user document:', error);
         });
-      }
+      });
 
       document.getElementById('exportButton').addEventListener('click', exportToCSV);
 
@@ -315,9 +301,9 @@
     </div>
     <div class="header-right">
       <div class="header-left">
+        <span class="header-button" onclick="window.location.href='../html/profile.html'">👤</span>
         <span class="header-button" onclick="window.location.href='explore.html'">🌐</span>
         <span class="header-button" onclick="window.location.href='notifications.html'">✉️</span>
-        <span class="header-button" onclick="window.location.href='profile.html'">👤</span>
       </div>
       <div class="hamburger-menu">
         <span></span>
@@ -329,10 +315,8 @@
 
   <nav id="menu" class="hidden">
     <ul>
-      <li><a href="profile.html">profile</a></li>
+      <li><a href="../html/profile.html">profile</a></li>
       <li><a href="#">settings</a></li>
-      <li><a href="#">help</a></li>
-      <li><a href="#" onclick="logout()">logout</a></li>
     </ul>
   </nav>
 
