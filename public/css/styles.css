@@ -220,3 +220,17 @@ main {
 .small-link:hover {
   text-decoration: underline;
 }
+.hashtag {
+  display: inline-block;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 5px;
+  color: #008080;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.hashtag:hover {
+  background-color: #d0d0d0;
+}

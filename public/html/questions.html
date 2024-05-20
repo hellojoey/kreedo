@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questions - kreedo</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    /* Add your CSS styles here */
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha384-nr+9vlvYWWjGQHMMgm2yxZr3VLgC1IRZzz1DRTGu5gWkY3HMYzle0jl7hDola65B" crossorigin="anonymous"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+      authDomain: "kreedo-5659e.firebaseapp.com",
+      projectId: "kreedo-5659e",
+      storageBucket: "kreedo-5659e.appspot.com",
+      messagingSenderId: "395650604091",
+      appId: "1:395650604091:web:7804b0af807767f853d01e",
+      measurementId: "G-WT40DT0QRP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const auth = firebase.auth();
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          console.log('User is signed in:', user);
+          loadQuestions();
+          updateMenuForLoggedInUser();
+        } else {
+          console.log('No user is signed in, redirecting to login.');
+          window.location.href = 'login.html';
+        }
+      });
+
+      function updateMenuForLoggedInUser() {
+        const menu = document.getElementById('menu');
+        menu.innerHTML = `
+          <ul>
+            <li><a href="profile.html">profile</a></li>
+            <li><a href="#">settings</a></li>
+            <li><a href="#">help</a></li>
+            <li><a href="#" onclick="logout()">logout</a></li>
+          </ul>
+        `;
+        menu.classList.remove('hidden');
+        console.log('Menu updated for logged-in user');
+      }
+
+      function logout() {
+        firebase.auth().signOut().then(() => {
+          console.log('User signed out, redirecting to index.');
+          window.location.href = 'index.html';
+        }).catch(error => {
+          console.error('Error during logout:', error);
+        });
+      }
+
+      document.querySelector('.hamburger-menu').addEventListener('click', () => {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('hidden');
+        console.log('Hamburger menu toggled');
+      });
+
+      document.querySelector('h1 a').addEventListener('click', (event) => {
+        event.preventDefault();
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            window.location.href = 'questions.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        });
+      });
+
+      function loadQuestions() {
+        fetch('data/questions.csv')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log('Questions loaded successfully');
+            const questions = Papa.parse(data, { header: true }).data;
+            if (questions.length === 0) {
+              throw new Error('No questions found in CSV');
+            }
+            console.log('Parsed questions:', questions);
+            setupNavigation(shuffleArray(questions));
+          })
+          .catch(error => console.error('Error loading questions:', error));
+      }
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function setupNavigation(questions) {
+        let currentIndex = 0;
+
+        displayQuestion(questions, currentIndex);
+
+        document.getElementById('prevButton').addEventListener('click', () => {
+          if (currentIndex > 0) {
+            currentIndex--;
+            displayQuestion(questions, currentIndex);
+          }
+        });
+
+        document.getElementById('skipButton').addEventListener('click', () => {
+          if (currentIndex < questions.length - 1) {
+            currentIndex++;
+            displayQuestion(questions, currentIndex);
+          } else {
+            alert('No more questions.');
+          }
+        });
+
+        document.getElementById('noButton').addEventListener('click', () => {
+          saveAnswer(questions[currentIndex].QuestionID, 'no');
+          if (currentIndex < questions.length - 1) {
+            currentIndex++;
+            displayQuestion(questions, currentIndex);
+          } else {
+            alert('No more questions.');
+          }
+        });
+
+        document.getElementById('yesButton').addEventListener('click', () => {
+          saveAnswer(questions[currentIndex].QuestionID, 'yes');
+          if (currentIndex < questions.length - 1) {
+            currentIndex++;
+            displayQuestion(questions, currentIndex);
+          } else {
+            alert('No more questions.');
+          }
+        });
+      }
+
+      function displayQuestion(questions, index) {
+        const questionText = document.getElementById('questionText');
+        const questionID = document.getElementById('questionID');
+        const questionHashtags = document.getElementById('questionHashtags');
+
+        if (questions.length > 0 && index < questions.length) {
+          const question = questions[index];
+          questionText.textContent = question.Question;
+          questionID.textContent = formatQuestionID(question.QuestionID);
+          questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);
+        } else {
+          questionText.textContent = 'No more questions.';
+          questionID.textContent = '';
+          questionHashtags.textContent = '';
+        }
+      }
+
+      function formatQuestionID(id) {
+        return id.toString().padStart(6, '0');
+      }
+
+      function generateHashtagLinks(hashtags) {
+        if (!hashtags) return '';
+        return hashtags.split(' ').map(tag => `<a href="#">${tag}</a>`).join(' ');
+      }
+
+      function saveAnswer(questionID, answer) {
+        const user = firebase.auth().currentUser;
+        if (user) {
+          const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+          userDocRef.update({
+            [`answers.${questionID}.currentAnswer`]: answer,
+            [`answers.${questionID}.history`]: firebase.firestore.FieldValue.arrayUnion({ answer: answer, timestamp: new Date().toISOString() }),
+            totalAnswers: firebase.firestore.FieldValue.increment(1),
+            dailyProgress: firebase.firestore.FieldValue.increment(2) // Assuming each answer increments progress by 2% for simplicity
+          }).then(() => {
+            console.log('Answer saved successfully.');
+          }).catch((error) => {
+            console.error('Error saving answer: ', error);
+          });
+        } else {
+          console.error('No user is signed in');
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html" style="text-transform: lowercase;">kreedo</a></h1>
+    <div class="header-center">
+      <input type="text" class="search-bar" placeholder="Search...">
+    </div>
+    <div class="header-right">
+      <div class="header-left">
+        <span class="header-button" onclick="window.location.href='explore.html'">🌐</span>
+        <span class="header-button" onclick="window.location.href='notifications.html'">✉️</span>
+        <span class="header-button" onclick="window.location.href='profile.html'">👤</span>
+      </div>
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <nav id="menu" class="hidden">
+    <ul>
+      <li><a href="profile.html">profile</a></li>
+      <li><a href="#">settings</a></li>
+      <li><a href="#">help</a></li>
+      <li><a href="#" onclick="logout()">logout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="question-nav">
+      <a href="javascript:void(0);" id="prevButton" class="nav-link">&#8592; previous question</a>
+    </div>
+    <div class="hashtags-container">
+      <p id="questionHashtags" class="small-text"></p>
+    </div>
+    <p id="questionID" class="small-text"></p>
+    <hr class="divider">
+    <h2 id="questionText" class="large-text">Loading questions...</h2>
+
+    <div class="button-container">
+      <button id="noButton" class="option-button half-circle-left">&#10060;</button>
+      <button id="yesButton" class="option-button half-circle-right">&#10004;</button>
+    </div>
+
+    <div class="submit-container">
+      <a href="javascript:void(0);" id="skipButton" class="small-link">skip</a>
+    </div>
+  </main>
+</body>
+</html>

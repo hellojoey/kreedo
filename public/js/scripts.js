@@ -2,13 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
   loadQuestions();
 
   function loadQuestions() {
-    fetch('questions.csv')
-      .then(response => response.text())
+    fetch('data/questions.csv')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
       .then(data => {
+        console.log('Questions loaded successfully');
         const questions = Papa.parse(data, { header: true }).data;
-        setupNavigation(questions);
+        if (questions.length === 0) {
+          throw new Error('No questions found in CSV');
+        }
+        console.log('Parsed questions:', questions);
+        setupNavigation(shuffleArray(questions));
       })
       .catch(error => console.error('Error loading questions:', error));
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   function setupNavigation(questions) {
@@ -60,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (questions.length > 0 && index < questions.length) {
       const question = questions[index];
+      console.log('Displaying question:', question);
       questionText.textContent = question.Question;
       questionID.textContent = formatQuestionID(question.QuestionID);
       questionHashtags.innerHTML = generateHashtagLinks(question.Hashtags);

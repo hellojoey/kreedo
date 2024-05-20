@@ -8,16 +8,24 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "redirects": [
+        "source": "/questions.html",
+        "destination": "/html/questions.html"
+      },
       {
-        "source": "/(.*)",
-        "destination": "https://kreedoapp.com/$1",
-        "type": 301
+        "source": "/login.html",
+        "destination": "/html/login.html"
+      },
+      {
+        "source": "/register.html",
+        "destination": "/html/register.html"
+      },
+      {
+        "source": "**",
+        "destination": "/html/index.html"
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   }
 }

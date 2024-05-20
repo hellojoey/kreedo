@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/profile-styles.css">
+  <style>
+    .header-right button {
+      background-color: #FF6347;
+      color: white;
+      height: 40px;
+      font-size: 16px;
+      padding: 0 20px;
+      border: none;
+      border-radius: 4px;
+      margin-left: 10px; /* Add space between buttons */
+    }
+    .full-circle {
+      border-radius: 50%;
+    }
+    .hidden {
+      display: none;
+    }
+    .hamburger-menu {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .hamburger-menu span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+    nav {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      padding: 10px 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+    }
+    nav ul li:hover {
+      background-color: #f4f4f4;
+    }
+    .header-center {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .search-bar {
+      width: 50%;
+      padding: 5px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+    .header-button {
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .logbook-entry {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logbook-entry h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .logbook-entry p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: grey;
+    }
+    .logbook-entry .answer-history {
+      margin-top: 10px;
+    }
+    .answer-history-item {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: grey;
+    }
+    .change-answer-button {
+      background-color: #008080;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .export-button {
+      background-color: #008080;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+      authDomain: "kreedo-5659e.firebaseapp.com",
+      projectId: "kreedo-5659e",
+      storageBucket: "kreedo-5659e.appspot.com",
+      messagingSenderId: "395650604091",
+      appId: "1:395650604091:web:7804b0af807767f853d01e",
+      measurementId: "G-WT40DT0QRP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          console.log('User is signed in:', user);
+          // User is signed in, load profile data
+          loadProfile(user.uid);
+          updateMenuForLoggedInUser();
+        } else {
+          console.log('No user is signed in, redirecting to login.');
+          // User is not signed in, redirect to login page
+          window.location.href = 'login.html';
+        }
+      });
+
+      function updateMenuForLoggedInUser() {
+        const menu = document.getElementById('menu');
+        menu.innerHTML = `
+          <ul>
+            <li><a href="profile.html">profile</a></li>
+            <li><a href="#">settings</a></li>
+            <li><a href="#">help</a></li>
+            <li><a href="#" onclick="logout()">logout</a></li>
+          </ul>
+        `;
+        menu.classList.remove('hidden');
+        console.log('Menu updated for logged-in user');
+      }
+
+      function logout() {
+        firebase.auth().signOut().then(() => {
+          console.log('User signed out, redirecting to index.');
+          window.location.href = 'index.html';
+        }).catch(error => {
+          console.error('Error during logout:', error);
+        });
+      }
+
+      const hamburgerMenu = document.querySelector('.hamburger-menu');
+      const menu = document.getElementById('menu');
+
+      hamburgerMenu.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        console.log('Hamburger menu toggled');
+      });
+
+      function loadProfile(userId) {
+        db.collection('users').doc(userId).get().then(doc => {
+          if (doc.exists) {
+            const data = doc.data();
+            document.getElementById('username').textContent = data.username;
+            document.getElementById('fullName').textContent = data.fullName;
+            document.getElementById('profilePicture').src = data.profilePicture || '../images/default-profile-pic.png';
+            document.getElementById('totalAnswers').textContent = data.totalAnswers || 0;
+            document.getElementById('progressPercentage').textContent = (data.dailyProgress || 0) + '%';
+            loadLogbook(userId);
+          } else {
+            console.error('User document does not exist');
+          }
+        }).catch(error => {
+          console.error('Error fetching user document:', error);
+        });
+      }
+
+      document.getElementById('exportButton').addEventListener('click', exportToCSV);
+
+      function loadLogbook(userId) {
+        db.collection('questions').get().then(querySnapshot => {
+          const questions = {};
+          querySnapshot.forEach(doc => {
+            questions[doc.id] = doc.data().question;
+          });
+          console.log('Questions from Firestore:', questions);
+
+          db.collection('users').doc(userId).get().then(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              const answers = data.answers || {};
+              const questionsList = document.getElementById('questionsList');
+              questionsList.innerHTML = '';
+
+              Object.keys(answers).forEach(questionId => {
+                const entry = answers[questionId];
+                const questionText = questions[questionId] || 'Unknown Question';
+                console.log(`Question ID: ${questionId}, Question: ${questionText}`);
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('logbook-entry');
+                questionElement.innerHTML = `
+                  <h3>${questionText}</h3>
+                  <p>ID: ${formatQuestionID(questionId)}</p>
+                  <hr>
+                  <div class="answer-history">
+                    ${entry.history.map(item => `
+                      <div class="answer-history-item">
+                        Answer: ${item.answer} on ${new Date(item.timestamp).toLocaleString()}
+                      </div>
+                    `).join('')}
+                  </div>
+                  <button class="change-answer-button" data-question-id="${questionId}">Change Answer</button>
+                `;
+                questionsList.appendChild(questionElement);
+              });
+
+              document.querySelectorAll('.change-answer-button').forEach(button => {
+                button.addEventListener('click', event => {
+                  const questionId = event.target.getAttribute('data-question-id');
+                  changeAnswer(userId, questionId);
+                });
+              });
+            } else {
+              console.error('User document does not exist');
+            }
+          }).catch(error => {
+            console.error('Error fetching user document:', error);
+          });
+        }).catch(error => {
+          console.error('Error fetching questions from Firestore:', error);
+        });
+      }
+
+      function formatQuestionID(id) {
+        return id.toString().padStart(6, '0');
+      }
+
+      function changeAnswer(userId, questionId) {
+        // Implement the logic for changing an answer
+      }
+
+      function exportToCSV() {
+        const user = firebase.auth().currentUser;
+        if (user) {
+          db.collection('users').doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              const answers = data.answers || {};
+              const csvData = [];
+
+              Object.keys(answers).forEach(questionId => {
+                const entry = answers[questionId];
+                entry.history.forEach(item => {
+                  csvData.push({
+                    question: entry.question,
+                    questionId: formatQuestionID(questionId),
+                    answer: item.answer,
+                    timestamp: new Date(item.timestamp).toLocaleString()
+                  });
+                });
+              });
+
+              const csv = Papa.unparse(csvData);
+              const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = 'logbook.csv';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          });
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html" style="text-transform: lowercase;">kreedo</a></h1>
+    <div class="header-center">
+      <input type="text" class="search-bar" placeholder="Search...">
+    </div>
+    <div class="header-right">
+      <div class="header-left">
+        <span class="header-button" onclick="window.location.href='explore.html'">🌐</span>
+        <span class="header-button" onclick="window.location.href='notifications.html'">✉️</span>
+        <span class="header-button" onclick="window.location.href='profile.html'">👤</span>
+      </div>
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <nav id="menu" class="hidden">
+    <ul>
+      <li><a href="profile.html">profile</a></li>
+      <li><a href="#">settings</a></li>
+      <li><a href="#">help</a></li>
+      <li><a href="#" onclick="logout()">logout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="userInfo" class="profile-section">
+      <img id="profilePicture" src="../img/default-profile-pic.png" alt="Profile Picture" class="profile-pic">
+      <div class="profile-details">
+        <h2 id="username" class="username">@username</h2>
+        <p id="fullName" class="fullname">Full Name</p>
+      </div>
+    </section>
+    <section class="links-section">
+      <div class="link-bubble">Daily Questions</div>
+      <div class="link-bubble greyed-out">Daily Readings</div>
+      <div class="link-bubble">Cloudmaps</div>
+      <div class="link-bubble">Logbook</div>
+      <div class="link-bubble">Recommended Series</div>
+    </section>
+    <section class="profile-stats">
+      <div class="stat">
+        <p>total answers</p>
+        <h3 id="totalAnswers">0</h3>
+      </div>
+      <div class="progress">
+        <p>daily progress</p>
+        <div id="progressPercentage">0.00%</div>
+      </div>
+    </section>
+    <section class="carousel-section">
+      <h2>Trending Topics</h2>
+      <div class="carousel">
+        <div class="carousel-item">Topic 1</div>
+        <div class="carousel-item">Topic 2</div>
+        <div class="carousel-item">Topic 3</div>
+        <!-- Add more topics as needed -->
+      </div>
+    </section>
+    <section id="logbook">
+      <h2>Logbook</h2>
+      <div>
+        <input type="text" id="searchBar" placeholder="Search log...">
+        <button id="exportButton" class="export-button">Export</button>
+      </div>
+      <ul id="questionsList"></ul>
+    </section>
+  </main>
+</body>
+</html>

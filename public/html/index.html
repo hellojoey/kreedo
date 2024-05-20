@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kreedo - Welcome</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .hero {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .hero h1 {
+      font-size: 64px;
+      color: #008080;
+      font-weight: bold;
+    }
+    .summary {
+      margin-top: 20px;
+      font-size: 36px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .highlight {
+      color: #008080;
+    }
+    .button-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .option-button {
+      font-size: 24px;
+      padding: 20px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    .option-button:hover {
+      filter: brightness(85%);
+    }
+    .half-circle-left {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 40px;
+    }
+    .half-circle-right {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 40px;
+      border-bottom-right-radius: 40px;
+    }
+    .header-right button {
+      background-color: #FF6347;
+      color: white;
+      height: 40px;
+      font-size: 16px;
+      padding: 0 20px;
+      border: none;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+    .header-right .login-button {
+      background-color: #333;
+    }
+    .hidden {
+      display: none;
+    }
+    .hamburger-menu {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .hamburger-menu span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+    nav {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      padding: 10px 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+    }
+    nav ul li:hover {
+      background-color: #f4f4f4;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMs-xS6_NKJh2DKOeHnLY3NTTp_zUNCm0",
+      authDomain: "kreedo-5659e.firebaseapp.com",
+      projectId: "kreedo-5659e",
+      storageBucket: "kreedo-5659e.appspot.com",
+      messagingSenderId: "395650604091",
+      appId: "1:395650604091:web:7804b0af807767f853d01e",
+      measurementId: "G-WT40DT0QRP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM fully loaded and parsed');
+      
+      const loginButton = document.querySelector('.login-button');
+      const joinNowButton = document.querySelector('.join-now-button');
+      const hamburgerMenu = document.querySelector('.hamburger-menu');
+      const menu = document.getElementById('menu');
+      
+      console.log('Login button:', loginButton);
+      console.log('Join Now button:', joinNowButton);
+      console.log('Hamburger menu:', hamburgerMenu);
+      console.log('Menu:', menu);
+
+      if (loginButton) {
+        loginButton.addEventListener('click', () => {
+          console.log('Login button clicked');
+          window.location.href = 'login.html';
+        });
+      }
+
+      if (joinNowButton) {
+        joinNowButton.addEventListener('click', () => {
+          console.log('Join Now button clicked');
+          window.location.href = 'register.html';
+        });
+      }
+
+      if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', () => {
+          console.log('Hamburger menu clicked');
+          menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html" style="text-transform: lowercase;">kreedo</a></h1>
+    <div class="header-right">
+      <button class="login-button">login</button>
+      <button class="join-now-button">join now</button>
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <nav id="menu" class="hidden">
+    <ul>
+      <li><a href="#">settings</a></li>
+      <li><a href="login.html">login</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>kreedo</h1>
+      <div class="summary">
+        <p>Understand who you are. Learn what you care about and who you care about. Let <span class="highlight">kreedo</span> help you make decisions. Click the <span class="highlight">&#10004;</span> to get started.</p>
+      </div>
+      <div class="button-container">
+        <button id="xButton" class="option-button half-circle-left">&#10060;</button>
+        <button id="checkButton" class="option-button half-circle-right">&#10004;</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
